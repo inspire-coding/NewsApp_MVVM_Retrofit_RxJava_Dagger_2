@@ -1,5 +1,6 @@
 package com.inspirecoding.newsapp_mvvm_retrofit_rxjava_dagger_1
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +13,21 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ArticleAdapter (
-    private var articleList: ArrayList<Article>
+    private val list: MutableList<Article>
 ) : RecyclerView.Adapter<ArticleAdapter.ArticlesViewHolder>()
 {
-    fun updateAllItems(articleList: ArrayList<Article>) {
-        this.articleList.clear()
-        this.articleList.addAll(articleList)
+    val TAG = this.javaClass.simpleName
+
+
+    fun updateAllItems(articleList: MutableList<Article>) {
+        Log.d(TAG, "articleList: ${articleList.size}")
+        Log.d(TAG, "this: ${itemCount}")
+        list.clear()
+        Log.d(TAG, "this: ${itemCount}")
+        list.addAll(articleList)
+        Log.d(TAG, "articleList: ${articleList.size}")
+        Log.d(TAG, "this: ${itemCount}")
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticlesViewHolder {
@@ -28,10 +38,10 @@ class ArticleAdapter (
         return ArticlesViewHolder(itemView)
     }
 
-    override fun getItemCount(): Int = articleList.size
+    override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(articlesViewHolder: ArticlesViewHolder, position: Int) {
-        articlesViewHolder.bindArticle(articleList[position])
+        articlesViewHolder.bindArticle(list[position])
     }
 
     inner class ArticlesViewHolder (private val view: View) : RecyclerView.ViewHolder(view) {

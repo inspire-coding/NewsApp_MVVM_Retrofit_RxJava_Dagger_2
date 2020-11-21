@@ -34,14 +34,22 @@ class MainActivity : DaggerAppCompatActivity() {
         mainActivityViewModel = ViewModelProvider(this, mainActivityViewModelFactory).get(MainActivityViewModel::class.java)
 
         mainActivityViewModel.articlesResponse.observe(this, Observer { _result ->
-            when (_result.status) {
+            when (_result?.status) {
                 Status.SUCCESS -> {
                     _result.data?.let {
 
                         if(::adapter.isInitialized) {
-                            adapter.updateAllItems(it)
+                            Log.d(TAG, "$it")
+                            val newList = it
+                            adapter.updateAllItems(newList)
                         } else {
+
+                            val newList = it
+                            Log.d(TAG, it.toString())
+                            Log.d(TAG, newList.toString())
+                            adapter = ArticleAdapter(it)
                             initRecyclerView(it)
+
                         }
 
                         Log.d(TAG, "SUCCESS")
@@ -56,7 +64,7 @@ class MainActivity : DaggerAppCompatActivity() {
                 Status.ERROR -> {
                     createSnackbar()
                     swipeRefreshLayout.isRefreshing = false
-                    Log.d("MainActivity", "${_result.message}")
+                    Log.d(TAG, "${_result.message}")
                 }
             }
         })
@@ -67,9 +75,7 @@ class MainActivity : DaggerAppCompatActivity() {
 
     }
 
-    private fun initRecyclerView(articlesList : ArrayList<Article>) {
-
-        adapter = ArticleAdapter(articlesList)
+    private fun initRecyclerView(articlesList : MutableList<Article>) {
 
         recyclerView.apply {
             adapter = this@MainActivity.adapter
