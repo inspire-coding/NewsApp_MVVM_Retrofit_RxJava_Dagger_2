@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name = "NewsApp_MVVM_Retrofit_RxJava_Dagger_1"

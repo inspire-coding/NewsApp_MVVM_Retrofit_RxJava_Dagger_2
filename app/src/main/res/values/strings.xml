@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="app_name">NewsApp_MVVM_Retrofit_RxJava_Dagger_1</string>
+
+    <string name="something_went_wrong">Sorry, but something went wrong.\nPlease try again later!</string>
+    <string name="retry">Retry</string>
+
+</resources>
